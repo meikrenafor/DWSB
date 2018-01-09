@@ -820,6 +820,13 @@ updateWebAssets() {
 		echo -e "\n\tINFO: ${AC}Web Assets${NC} were updated.\n" | tee -a "$logFile";
 	fi
 
+    # update composer bundles assets
+    php app/console assets:install web/assets --symlink;
+
+    if [[ "$showAllMessages" = true ]]; then
+		echo -e "\n\tINFO: ${AC}Composer Bundles Web Assets${NC} were updated.\n" | tee -a "$logFile";
+	fi
+
 	return 0;
 }
 
