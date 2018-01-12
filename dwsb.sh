@@ -815,6 +815,7 @@ clearSymfonyCache() {
 updateNpmPackages() {
     nodeJsDirectory='app/Resources/NodeJS';
 
+    # remove old node_modules
     rm -rf "$nodeJsDirectory/node_modules";
 
     if [[ "$showAllMessages" = true ]]; then
@@ -828,7 +829,7 @@ updateNpmPackages() {
 	npm install;
 
     if [[ "$showAllMessages" = true ]]; then
-		echo -e "\tINFO: Attemplted to install ${AC}required npm packages${NC}." | tee -a "$logFile";
+		echo -e "\tINFO: Attempted to install ${AC}required npm packages${NC}." | tee -a "$logFile";
 	fi
 
 	# return to working directory: ./ -> Resources -> app -> website directory
