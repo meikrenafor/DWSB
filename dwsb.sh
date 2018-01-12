@@ -812,6 +812,31 @@ clearSymfonyCache() {
 	return 0;
 }
 
+updateNpmPackages() {
+    nodeJsDirectory='app/Resources/NodeJS';
+
+    rm -rf "$nodeJsDirectory/node_modules";
+
+    if [[ "$showAllMessages" = true ]]; then
+		echo -e "\tINFO: Forcefully removed ${AC}previous npm packages${NC}." | tee -a "$logFile";
+	fi
+
+	# move to NodeJS directory
+	cd "$nodeJsDirectory";
+
+	# install npm packages
+	npm install;
+
+    if [[ "$showAllMessages" = true ]]; then
+		echo -e "\tINFO: Attemplted to install ${AC}required npm packages${NC}." | tee -a "$logFile";
+	fi
+
+	# return to working directory: ./ -> Resources -> app -> website directory
+	cd ../../../;
+
+	return 0;
+}
+
 updateWebAssets() {
 	# update web assets
 	php app/console assetic:dump --no-debug;
@@ -974,6 +999,7 @@ initializeSymfonyApplication() {
         updateNewWebsiteFromGit;
         updateComposerBundles;
         clearSymfonyCache;
+        updateNpmPackages;
         updateWebAssets;
         checkDownloadsSymbolicLink;
     fi
@@ -981,6 +1007,7 @@ initializeSymfonyApplication() {
     if [[ "$saveOld" = true ]] || [[ "$ignoreOld" = true ]]; then
         installComposerBundles;
         warmUpSymfonyCache;
+        updateNpmPackages;
         updateWebAssets;
 
         changeActiveDirectoryToWww;
